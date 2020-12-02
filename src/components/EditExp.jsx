@@ -84,7 +84,6 @@ class Edit extends React.Component {
     return this.props.exp.empty !== true ? true : false;
   };
   render() {
-    console.log("edit", this.props, this.state);
     return (
       <Modal
         show={this.props.show}
