@@ -21,6 +21,31 @@ import { GiHandBag } from "react-icons/gi";
 import { RiMessage2Fill } from "react-icons/ri";
 import "../styles/AppNavBar.css";
 class AppNavBar extends React.Component {
+  state = {
+    query: "",
+    result: [],
+  };
+
+  componentDidUpdate() {
+    fetch("https://striveschool-api.herokuapp.com/api/profile/", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        let name = result.map((res) => res.name )
+        let filtered = name.filter(() =>{return this.state.query})
+        console.log(filtered)
+      });
+  }
+
+  searchHandler = (event) => {
+    let query = event.currentTarget.value;
+    this.setState({ query: query }, () => console.log(this.state.query));
+  };
+
   render() {
     return (
       <Navbar bg="white" variant="light" className="py-0 fixed-top">
@@ -62,7 +87,7 @@ class AppNavBar extends React.Component {
                 type="text"
                 placeholder="Search"
                 className=""
-                onChange={(e) => this.props.searchHandler(e)}
+                onChange={(e) => this.searchHandler(e)}
               />
             </InputGroup>
           </Form>
